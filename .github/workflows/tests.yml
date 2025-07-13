@@ -17,9 +17,10 @@ jobs:
           echo ${{ github.event.number }} > issue_num
           SUITE_INFO=`curl -s https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}`
           SUITE_ID=`echo $SUITE_INFO | jq -r '.check_suite_id'`
+          echo $GITHUB_RUN_ID > run_id
           echo $SUITE_ID > suite_id
           echo "Test" > result.txt
-          cat issue_num suite_id result.txt
+          cat issue_num run_id suite_id result.txt
 
       - uses: actions/upload-artifact@v4
         with:

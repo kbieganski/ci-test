@@ -34,20 +34,21 @@ jobs:
                archive_format: 'zip',
             });
 
-            console.log("artifact_id=" + matchArtifact.id + " >> $GITHUB_OUTPUT");
+            core.setOutput('artifact_id', matchArtifact.id);
+
             var fs = require('fs');
             fs.writeFileSync('${{github.workspace}}/result.zip', Buffer.from(download.data));
 
       - name: Unpack artifacts
         run: |
           unzip result.zip
-          cat issue_num suite_id result.txt
+          cat issue_num run_id suite_id result.txt
 
       - name: Generate artifacts link
         run: |
           ARTIFACT_ID=${{ steps.get-artifacts.outputs.artifact_id}}
-          SUITE_ID=$(cat ./suite_id)
-          ARTIFACT_URL="https://github.com/chipsalliance/sv-tests/suites/$SUITE_ID/artifacts/$ARTIFACT_ID"
+          RUN_ID=$(cat ./run_id)
+          ARTIFACT_URL="https://github.com/chipsalliance/sv-tests/runs/$RUN_ID/artifacts/$ARTIFACT_ID"
           MD_URL="[Download an archive containing all the details]($ARTIFACT_URL)"
           echo -e "\n\n$MD_URL" > comment.md
 
