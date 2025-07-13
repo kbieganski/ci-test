@@ -27,8 +27,21 @@ jobs:
             var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
               return artifact.name == "result"
             })[0];
+            var download = await github.rest.actions.downloadArtifact({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               artifact_id: matchArtifact.id,
+               archive_format: 'zip',
+            });
 
             console.log("artifact_id=" + matchArtifact.id + " >> $GITHUB_OUTPUT");
+            var fs = require('fs');
+            fs.writeFileSync('${{github.workspace}}/result.zip', Buffer.from(download.data));
+
+      - name: Unpack artifacts
+        run: |
+          unzip result.zip
+          cat issue_num suite_id result.txt
 
       - name: Generate artifacts link
         run: |
