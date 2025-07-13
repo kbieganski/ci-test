@@ -27,6 +27,7 @@ jobs:
           name: result
           path: |
             issue_num
+            run_id
             suite_id
             result.txt
 
