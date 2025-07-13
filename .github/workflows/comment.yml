@@ -25,7 +25,7 @@ jobs:
                run_id: ${{ github.event.workflow_run.id }},
             });
             var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
-              return artifact.name == "tests_summary"
+              return artifact.name == "result"
             })[0];
 
             console.log("artifact_id=" + matchArtifact.id + " >> $GITHUB_OUTPUT");
