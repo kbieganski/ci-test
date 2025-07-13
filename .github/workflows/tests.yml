@@ -1,0 +1,21 @@
+name: tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  Test:
+    name: Test
+    runs-on: [ubuntu-latest]
+    steps:
+      - run: |
+          echo "Test" > result.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: result
+          path: |
+            result.txt
+
